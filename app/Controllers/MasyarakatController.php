@@ -51,7 +51,7 @@ class MasyarakatController extends BaseController
                 return redirect()->to('/masyarakat/dashboard');
             } else {
                 session()->setFlashdata('pesan', 'Login gagal! Username atau Password salah');
-                return redirect()->to('/');
+                return redirect()->to('/masyarakat');
             }
         }
     }
@@ -207,7 +207,7 @@ class MasyarakatController extends BaseController
         ])) {
             $validasi = \Config\Services::validation();
             // return redirect()->to('/masyarakat/tambah_pengaduan')->withInput()->with('validation', $validasi);
-            return redirect()->to('/masyarakat/tambah_pengaduan')->withInput();
+            return redirect()->to('/masyarakat/tambah-pengaduan')->withInput();
         }
         // ambil gambar
         $fileFoto = $this->request->getFile('foto');

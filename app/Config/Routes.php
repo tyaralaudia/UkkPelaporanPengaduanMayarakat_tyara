@@ -54,7 +54,7 @@ $routes->get('/admin', 'Admin::index');
 $routes->post('/admin/login', 'Admin::login');
 $routes->get('/admin/logout', 'Admin::logout');
 // masyarakat
-$routes->get('/', 'MasyarakatController::index');
+$routes->get('/masyarakat', 'MasyarakatController::index');
 $routes->post('/masyarakat/login', 'MasyarakatController::login_masyarakat');
 $routes->get('/masyarakat/register', 'MasyarakatController::register');
 $routes->post('/masyarakat/registrasi', 'MasyarakatController::save_register');

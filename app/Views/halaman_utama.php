@@ -52,7 +52,7 @@
 
 
 
-                    <li class="dropdown"><a href="#"><span>Login</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="#" class="getstarted"><span>Login</span> <i class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="/admin">Login sebagai admin</a></li>
                             <li><a href="/PetugasController">Login sebagai petugas</a></li>
