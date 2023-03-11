@@ -7,69 +7,188 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= "Selamat datang " . '<strong>' . session()->get('nama_petugas') . '</strong>'; ?></h1>
-        <?php if (session()->get('level') == 'admin') { ?>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Laporan</a>
-        <?php } ?>
     </div>
     <!-- <div class="container"> -->
     <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Pengaduan</h6>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr align="center">
-                            <th>No</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Tanggal Pengaduan</th>
-                            <th>Isi Laporan</th>
-                            <th>Foto</th>
-                            <th>Status</th>
-                            <th>Telepon</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr align="center">
-                            <th>No</th>
-                            <th>NIK</th>
-                            <th>Nama</th>
-                            <th>Tanggal Pengaduan</th>
-                            <th>Isi Laporan</th>
-                            <th>Foto</th>
-                            <th>Status</th>
-                            <th>Telepon</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <?php $no = 1;
-                        foreach ($pengaduan as $p) : ?>
-                            <tr align="center">
-                                <th scope="row"><?= $no++; ?></th>
-                                <th scope="row"><?= $p['nik']; ?></th>
-                                <td><?= $p['nama']; ?></td>
-                                <td><?= $p['tgl_pengaduan']; ?></td>
-                                <td><?= $p['isi_laporan']; ?></td>
-                                <td><img src="/img/<?= $p['foto']; ?>" alt="" width="100px"></td>
-                                <td><?= $p['status']; ?></td>
-                                <td><?= $p['telp']; ?></td>
-                                <td>
-                                    <a href="/petugas/pengaduan/detail" class="btn btn-success mb-2" title="Detail"><i class="fas fa-check"></i></a>
-                                    <a href="/petugas/form-tanggapan" class="btn btn-primary mb-2" title="Tambah Tanggapan"><i class="fas fa-plus"></i></a>
-                                    <a href="/petugas/pengaduan/hapus" class="btn btn-danger mb-2" title="Hapus"><i class="fa fa-trash-alt" aria-hidden="true"></i></a>
-                                </td>
 
-                            </tr>
+    <!-- Content Row -->
+    <div class="row">
 
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-3">
+                                Data Pengaduan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_pgdn; ?></div>
+                            <p class="card-text"></p>
+                            <hr>
+                            <a href="/petugas/pengaduan" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                        </div>
+
+                        <div class="col-auto mb-4">
+                            <i class="fas fa-envelope fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-danger text-uppercase mb-3">
+                                Pengaduan Belum Diproses</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_pgdn_blm_diproses; ?></div>
+                            <p class="card-text"></p>
+                            <hr>
+                            <a href="/petugas/pengaduan/blm-diproses" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                        </div>
+                        <div class="col-auto mb-4">
+                            <i class="fas fa-exclamation-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-3">
+                                Pengaduan Diproses
+                            </div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"><?= $jml_pgdn_diproses; ?></div>
+                                    <p class="card-text"></p>
+                                    <hr>
+                                    <a href="/petugas/pengaduan" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto mb-4">
+                            <i class="fas fa-check fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-3">
+                                Pengaduan Selesai</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_pgdn_selesai; ?></div>
+                            <p class="card-text"></p>
+                            <hr>
+                            <a href="/petugas/pengaduan/status-proses-selesai" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                        </div>
+                        <div class="col-auto mb-4">
+                            <i class="fas fa-check-double fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Requests Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-3">
+                                Data Tanggapan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_tgpn; ?></div>
+                            <p class="card-text"></p>
+                            <hr>
+                            <a href="/petugas/tanggapan" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                        </div>
+                        <div class="col-auto mb-4">
+                            <i class="fas fa-comments fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php if (session()->get('level') == 'admin') { ?>
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-3">
+                                    Data Masyarakat</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_masy; ?></div>
+                                <p class="card-text"></p>
+                                <hr>
+                                <a href="/petugas/data-masyarakat" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                            </div>
+
+                            <div class="col-auto mb-4">
+                                <i class="fas fa-users fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-3">
+                                    Data Petugas</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_ptgs; ?></div>
+                                <p class="card-text"></p>
+                                <hr>
+                                <a href="/petugas/data-petugas" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                            </div>
+
+                            <div class="col-auto mb-4">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-3">
+                                    Data Laporan</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800"><?= $jml_lap; ?></div>
+                                <p class="card-text"></p>
+                                <hr>
+                                <a href="/laporan/pengaduan" class="text-black">Lihat Rincian<i class="fa fa-arrow-right text-end"></i></a>
+                            </div>
+                            <div class="col-auto mb-4">
+                                <i class="fa-solid fa-file fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <?php } ?>
     </div>
 
     <!-- </div> -->
