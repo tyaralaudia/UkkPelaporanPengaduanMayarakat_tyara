@@ -22,78 +22,76 @@
 
 <body class="bg-gradient-primary">
 
-    <div class="container">
+    <div class="container mt-5 pt-2 mb-2">
 
         <!-- Outer Row -->
         <div class="row justify-content-center">
 
-            <div class="col-xl-10 col-lg-12 col-md-9 mt-5">
+            <div class="col-xl-6 col-lg-6 col-md-5">
 
-                <div class="card o-hidden border-0 shadow-lg my-5">
+                <div class="card my-5">
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
-                        <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block">
-                                <h3 class="display-6 text-gray-900 text-center mt-3">Selamat datang di Pengaduan Masyarakat Desa ...!</h3>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Silahkan Login</h1>
-                                        <?php if (session()->getFlashdata('pesan')) { ?>
-                                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                                <?= session()->getFlashdata('pesan'); ?>
-                                            </div>
+                        <!-- <div class="row">
+                        <div class="col-lg-6 d-none d-lg-block bg-login-image"></div> -->
+                        <div class="col-lg-16">
+                            <div class="p-5">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4">Silahkan login!</h1>
+                                    <?php if (session()->getFlashdata('pesan')) { ?>
+                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                            <?= session()->getFlashdata('pesan'); ?>
+                                        </div>
 
-                                            <script>
-                                                $(".alert").alert();
-                                            </script>
-                                        <?php } ?>
+                                        <script>
+                                            $(".alert").alert();
+                                        </script>
+                                    <?php } ?>
+                                </div>
+                                <form class="user" action="/masyarakat/login" method="POST">
+                                    <div class="form-group">
+                                        <input type="text" name="txtUsername" placeholder="Masukkan Username" class="form-control form-control-user <?= ($validation->hasError('txtUsername')) ? 'is-invalid' : ''; ?>" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukkan Username">
+
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('txtUsername'); ?>
+                                        </div>
                                     </div>
-                                    <form class="user" action="/masyarakat/login" method="POST">
-                                        <div class="form-group">
-                                            <input type="text" name="txtUsername" placeholder="Masukkan Username" class="form-control form-control-user <?= ($validation->hasError('txtUsername')) ? 'is-invalid' : ''; ?>" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukkan Username">
 
-                                            <div class="invalid-feedback">
-                                                <?= $validation->getError('txtUsername'); ?>
-                                            </div>
+                                    <div class="form-group">
+                                        <input type="password" name="txtPassword" placeholder="Masukkan Password" class="form-control form-control-user <?= ($validation->hasError('txtPassword')) ? 'is-invalid' : ''; ?>" id="exampleInputPassword" placeholder="Masukkan Password">
+                                        <div class="invalid-feedback">
+                                            <?= $validation->getError('txtPassword'); ?>
                                         </div>
+                                    </div>
 
-                                        <div class="form-group">
-                                            <input type="password" name="txtPassword" placeholder="Masukkan Password" class="form-control form-control-user <?= ($validation->hasError('txtPassword')) ? 'is-invalid' : ''; ?>" id="exampleInputPassword" placeholder="Masukkan Password">
-                                            <div class="invalid-feedback">
-                                                <?= $validation->getError('txtPassword'); ?>
-                                            </div>
+                                    <div class="form-group">
+                                        <div class="custom-control custom-checkbox small">
+                                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                                            <label class="custom-control-label" for="customCheck">Remember
+                                                Me</label>
                                         </div>
-
-                                        <div class="form-group">
-                                            <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary rounded-pill col-12">Login</button>
-                                    </form>
-                                    <hr>
-                                    <!-- <div class="text-center">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary rounded-pill col-12">Login</button>
+                                </form>
+                                <hr>
+                                <!-- <div class="text-center">
                                         <a class="small" href="forgot-password.html">Forgot Password?</a>
                                     </div> -->
-                                    <div class="text-center">
-                                        <a class="small" href="/masyarakat/register">Belum punya akun?</a>
-                                    </div>
+                                <div class="text-center">
+                                    <a class="small" href="/masyarakat/register">Belum punya akun?</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </div>
+
+    </div>
 
     </div>
 

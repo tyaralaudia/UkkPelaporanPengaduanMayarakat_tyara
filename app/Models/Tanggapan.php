@@ -8,18 +8,18 @@ class Tanggapan extends Model
 {
     protected $DBGroup              = 'default';
     protected $table                = 'tanggapan';
-    protected $primaryKey           = 'tgl_tanggapan';
+    protected $primaryKey           = 'id_tanggapan';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = ['id_pengaduan', 'id_tanggapan', 'tgl_tanggapan', 'tanggapan', 'id_petugas'];
+    protected $allowedFields        = ['id_pengaduan', 'tanggapan', 'id_petugas'];
 
     // Dates
-    protected $useTimestamps        = false;
+    protected $useTimestamps        = true;
     protected $dateFormat           = 'datetime';
-    protected $createdField         = 'created_at';
+    protected $createdField         = 'tgl_tanggapan';
     protected $updatedField         = 'updated_at';
     protected $deletedField         = 'deleted_at';
 

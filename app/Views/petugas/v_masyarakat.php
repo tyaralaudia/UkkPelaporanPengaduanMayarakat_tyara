@@ -9,6 +9,15 @@
                     <h6 class="m-0 font-weight-bold text-primary">Data Masyarakat</h6>
                 </div>
                 <div class="card-body">
+                    <?php if (session()->getFlashdata('pesan')) : ?>
+                        <div class="alert alert-danger alert-dismissible fade show col-8" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <?= session()->getFlashdata('pesan'); ?>
+                        </div>
+                    <?php endif; ?>
                     <div class="table-responsive">
                         <table class="table table-sm table-striped table-hover" id="dataTable">
                             <thead>

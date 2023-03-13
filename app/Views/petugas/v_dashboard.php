@@ -8,6 +8,19 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800"><?= "Selamat datang " . '<strong>' . session()->get('nama_petugas') . '</strong>'; ?></h1>
     </div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12">
+            <?php if (!empty(session()->getFlashdata('berhasil'))) : ?>
+                <div class="alert alert-success alert-dismissible fade show col-3" role="alert">
+                    <?php echo session()->getFlashdata('berhasil'); ?>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
     <!-- <div class="container"> -->
     <!-- DataTales Example -->
 

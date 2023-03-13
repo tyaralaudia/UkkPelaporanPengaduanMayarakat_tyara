@@ -8,7 +8,7 @@ class Masyarakat extends Model
 {
     protected $DBGroup              = 'default';
     protected $table                = 'masyarakat';
-    protected $primaryKey           = 'username';
+    protected $primaryKey           = 'nik';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;
     protected $returnType           = 'array';

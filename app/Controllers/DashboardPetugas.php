@@ -39,10 +39,18 @@ class DashboardPetugas extends BaseController
     {
         $model = new Pengaduan();
         $data = [
-            'pengaduan' => $model->getPengaduan(),
-            'title' => 'Dashboard'
-        ];
+            'title' => 'Dashboard',
+            'jml_pgdn' => $this->pengaduanmodel->jmlPengaduan(),
+            'jml_pgdn_blm_diproses' => $this->pengaduanmodel->jmlPengaduanBelumDiproses(),
+            'jml_pgdn_diproses' => $this->pengaduanmodel->jmlPengaduanDiproses(),
+            'jml_pgdn_selesai' => $this->pengaduanmodel->jmlPengaduanSelesai(),
+            'jml_tgpn' => $this->tanggapanmodel->countAll(),
+            'jml_masy' => $this->masyarakatmodel->countAll(),
+            'jml_ptgs' => $this->petugasmodel->countAll(),
+            'jml_lap' => $this->pengaduanmodel->countAll(),
 
+        ];
+        // \dd($data);
         return view('petugas/v_dashboard', $data);
     }
 

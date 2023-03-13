@@ -12,11 +12,17 @@
     <title><?= $title; ?></title>
 
     <!-- Custom fonts for this template-->
-    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?= base_url(); ?>/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?= base_url(); ?>/css/sb-admin-2.min.css" rel="stylesheet">
+
+    <!-- summernote -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.css" rel="stylesheet">
+
+    <!-- datatables -->
+    <link rel="stylesheet" href="/vendor/datatables/dataTables.bootstrap4.min.css">
 
 </head>
 
@@ -26,24 +32,15 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-            <?php if (session()->get('level') == 'admin' && session()->get('level') == 'petugas') { ?>
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/petugas/dashboard">
-                    <div class="sidebar-brand-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">Pengaduan Masyarakat </div>
-                </a>
-            <?php } else {  ?>
-                <!-- Sidebar - Brand -->
-                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/masyarakat/dashboard">
-                    <div class="sidebar-brand-icon">
-                        <i class="fas fa-building"></i>
-                    </div>
-                    <div class="sidebar-brand-text mx-3">Pengaduan Masyarakat </div>
-                </a>
-            <?php } ?>
+        <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?= (session()->get('level') == 'admin' || session()->get('petugas')) ? '/petugas/dashboard' : '/masyarakat/dashboard'; ?>">
+                <div class="sidebar-brand-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="sidebar-brand-text mx-3">Pengaduan Masyarakat </div>
+            </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
@@ -79,12 +76,12 @@
                         <i class="fa fa-envelope-open-text" aria-hidden="true"></i>
                         <span>Pengaduan</span>
                     </a>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div id="collapseTwo" class="collapse <?= url_is('/petugas/pengaduan*') ? 'show' : ''; ?>" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Pengaduan:</h6>
-                            <a class="collapse-item" href="/petugas/pengaduan">Data Pengaduan</a>
-                            <a class="collapse-item" href="cards.html">Belum Ditanggapi</a>
-                            <a class="collapse-item" href="cards.html">Sudah Ditanggapi</a>
+                            <a class="collapse-item <?= url_is('/petugas/pengaduan') ? 'active' : ''; ?>" href="/petugas/pengaduan">Data Pengaduan</a>
+                            <a class="collapse-item <?= url_is('/petugas/pengaduan/blm-diproses') ? 'active' : ''; ?>" href="/petugas/pengaduan/blm-diproses">Belum Diproses</a>
+                            <a class="collapse-item <?= url_is('/petugas/pengaduan/status-proses-selesai') ? 'active' : ''; ?>" href="/petugas/pengaduan/status-proses-selesai" href="/petugas/pengaduan/status-proses-selesai">Status Selesai/Diproses</a>
 
                         </div>
                     </div>
@@ -96,10 +93,10 @@
                         <i class="fa fa-reply" aria-hidden="true"></i>
                         <span>Tanggapan</span>
                     </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                    <div id="collapseUtilities" class="collapse <?= url_is('/petugas/tanggapan*') ? 'show' : ''; ?>" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Tanggapan:</h6>
-                            <a class="collapse-item" href="/petugas/tanggapan">Data Tanggapan</a>
+                            <a class="collapse-item <?= url_is('/petugas/tanggapan*') ? 'active' : ''; ?>" href="/petugas/tanggapan">Data Tanggapan</a>
                         </div>
                     </div>
                 </li>
@@ -131,7 +128,7 @@
 
                 <!-- Heading -->
                 <div class="sidebar-heading">
-                    Lihat Tanggapan
+                    Tanggapan
                 </div>
 
                 <li class="nav-item">
@@ -158,10 +155,10 @@
                         <i class="fa fa-users" aria-hidden="true"></i>
                         <span>Masyarakat</span>
                     </a>
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div id="collapsePages" class="collapse <?= url_is('/petugas/data-masyarakat') ? 'show' : ''; ?>" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Masyarakat:</h6>
-                            <a class="collapse-item" href="/petugas/data-masyarakat">Data Masyarakat</a>
+                            <a class="collapse-item <?= url_is('/petugas/data-masyarakat*') ? 'active' : ''; ?>" href="/petugas/data-masyarakat">Data Masyarakat</a>
                         </div>
                     </div>
                 </li>
@@ -172,11 +169,11 @@
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
                         <span>Petugas</span>
                     </a>
-                    <div class="collapse" id="collapseCharts" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="collapse <?= url_is('/petugas/data-petugas') || url_is('/petugas/tambah-petugas') ? 'show' : ''; ?>" id="collapseCharts" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Menu Petugas: </h6>
-                            <a href="/petugas/data-petugas" class="collapse-item">Data Petugas</a>
-                            <a href="/petugas/tambah-petugas" class="collapse-item">Tambah Petugas</a>
+                            <a href="/petugas/data-petugas" class="collapse-item <?= url_is('/petugas/data-petugas') ? 'active' : ''; ?>">Data Petugas</a>
+                            <a href="/petugas/tambah-petugas" class="collapse-item <?= url_is('/petugas/tambah-petugas') ? 'active' : ''; ?>">Tambah Petugas</a>
                         </div>
                     </div>
                 </li>
@@ -184,21 +181,27 @@
             <?php } ?>
 
 
-            <?php if (session()->get('level') == 'petugas' || session()->get('level') == 'admin') { ?>
-                <!-- Divider -->
+            <?php if (session()->get('level') == 'admin') { ?>
                 <hr class="sidebar-divider">
 
-                <!-- Heading -->
                 <div class="sidebar-heading">
-                    Verifikasi dan Validasi
+                    Generate Laporan
                 </div>
 
+                <!-- Nav Item - Charts -->
                 <li class="nav-item">
-                    <a class="nav-link" href="/petugas/verifikasi-validasi">
-                        <i class="fa fa-check-circle" aria-hidden="true"></i>
-                        <span>Verifikasi dan Validasi</span></a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#laporan" aria-expanded="true" aria-controls="laporan">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                        <span>Generate Laporan</span>
+                    </a>
+                    <div class="collapse <?= url_is('/laporan*') ? 'show' : ''; ?>" id="laporan" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Laporan: </h6>
+                            <a href="/laporan/pengaduan" class="collapse-item <?= url_is('/laporan/pengaduan') ? 'active' : ''; ?>">Laporan Pengaduan</a>
+                            <a href="/laporan/tanggapan" class="collapse-item <?= url_is('/laporan/tanggapan') ? 'active' : ''; ?>">Laporan Tanggapan</a>
+                        </div>
+                    </div>
                 </li>
-
             <?php } ?>
 
             <!-- Sidebar Toggler (Sidebar) -->
@@ -224,7 +227,7 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="" method="GET">
+                    <!-- <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" action="" method="GET">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
@@ -233,7 +236,7 @@
                                 </button>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -258,118 +261,9 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/img/undraw_profile_1.svg" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/img/undraw_profile_2.svg" alt="...">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="/img/undraw_profile_3.svg" alt="...">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="...">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
                         <div class="topbar-divider d-none d-sm-block"></div>
 
-                        <!-- Nav Item - User Information -->
+                        <!-- Nav Item - User primaryrmation -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
@@ -380,20 +274,19 @@
                                 </span>
                                 <img class="img-profile rounded-circle" src="/img/undraw_profile.svg">
                             </a>
-                            <!-- Dropdown - User Information -->
+                            <!-- Dropdown - User primaryrmation -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                                <?php if (session()->get('level') == 'admin' || session()->get('level') == 'petugas') { ?>
+                                <?php if (session()->get('level') == 'admin' || session()->get('level') == 'petugas') : ?>
                                     <a class="dropdown-item" href="/petugas/profil">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profil
                                     </a>
-                                <?php } ?>
-                                <?php if (session()->get('level') != 'admin') { ?>
+                                <?php else : ?>
                                     <a class="dropdown-item" href="/masyarakat/profil">
                                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Profil
                                     </a>
-                                <?php } ?>
+                                <?php endif ?>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="/petugas/logout" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
@@ -446,28 +339,45 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Kembali</button>
-                        <a class="btn btn-primary" <?php if (session()->get('level') != 'admin' && session()->get('level') != 'petugas') { ?> href="/" <?php } else { ?> href="/petugas/logout" <?php } ?>>Logout</a>
+                        <a class="btn btn-primary" <?php if (session()->get('level') != 'admin' && session()->get('level') != 'petugas') { ?> href="/masyarakat/logout" <?php } else { ?> href="/petugas/logout" <?php } ?>>Logout</a>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- summernote -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.18/summernote-lite.js"></script>
+
+        <!-- sweetalerts2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+            $('#summernote').summernote({
+                // placeholder: 'inwepo.co',
+                tabsize: 2,
+                height: 100
+            });
+
+            $(document).ready(function() {
+                $('#myTable').DataTable();
+            });
+        </script>
+
         <!-- Bootstrap core JavaScript-->
-        <script src="/vendor/jquery/jquery.min.js"></script>
+        <script src="<?= base_url(); ?>/vendor/jquery/jquery.min.js"></script>
         <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+        <!-- datatables -->
+        <script src="/js/demo/datatables-demo.js"></script>
+        <script src="/vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
         <!-- Core plugin JavaScript-->
-        <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+        <script src="<?= base_url(); ?>/vendor/jquery-easing/jquery.easing.min.js"></script>
 
         <!-- Custom scripts for all pages-->
-        <script src="/js/sb-admin-2.min.js"></script>
-
-        <!-- Page level plugins -->
-        <script src="/vendor/chart.js/Chart.min.js"></script>
-
-        <!-- Page level custom scripts -->
-        <script src="/js/demo/chart-area-demo.js"></script>
-        <script src="/js/demo/chart-pie-demo.js"></script>
+        <script src="<?= base_url(); ?>/js/sb-admin-2.min.js"></script>
 
 </body>
 

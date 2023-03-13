@@ -58,6 +58,7 @@ class BaseController extends Controller
         $this->petugasmodel = new Petugas;
 
         // Preload any models, libraries, etc, here.
+        $this->validasi = \Config\Services::validation();
 
         // E.g.: $this->session = \Config\Services::session();
     }

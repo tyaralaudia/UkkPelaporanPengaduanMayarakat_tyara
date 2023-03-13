@@ -1,5 +1,6 @@
 <?= $this->extend('layout/template'); ?>
-
+<!-- file ini nyambung ke layout template
+penempatan html ini di rendeersection(penanda) -->
 <?= $this->section('content'); ?>
 <!-- Begin Page Content -->
 <div class="container-fluid">

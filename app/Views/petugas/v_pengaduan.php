@@ -1,46 +1,81 @@
+<?php
+$tambah_tanggapan = session()->getFlashdata('success_tambah');
+
+?>
 <?= $this->extend('layout/template'); ?>
 
 <?= $this->section('content'); ?>
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <div class="card-header mb-2">
-                <h3 class="m-0 font-weight-bold text-primary">Data Pengaduan</h3>
+
+            <?php if ($tambah_tanggapan) : ?>
+                <div class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <?= $tambah_tanggapan; ?>
+                </div>
+            <?php endif ?>
+
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex justify-content-between align-items-center">
+                    <h6 class="m-0 font-weight-bold text-primary">Data Pengaduan</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-striped table-hover" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr align="center">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">NIK</th>
+                                    <th scope="col">Tanggal Pengaduan</th>
+                                    <th scope="col">Isi Laporan</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1;
+                                foreach ($pengaduan as $p) : ?>
+                                    <tr align="center">
+                                        <th scope="row"><?= $no++; ?></th>
+                                        <td><?= $p['nama']; ?></td>
+                                        <td><?= $p['nik']; ?></td>
+                                        <td><?= date('d/m/Y', strtotime($p['tgl_pengaduan'])); ?></td>
+                                        <td><?= $p['isi_laporan']; ?></td>
+                                        <td><?php if ($p['status'] == '0') { ?>
+                                                <span class="badge badge-warning">Belum Diproses</span>
+                                            <?php } elseif ($p['status'] == 'proses') { ?>
+                                                <span class="badge badge-info">Diproses</span>
+                                            <?php } else { ?>
+                                                <span class="badge badge-success">Selesai</span>
+                                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <a href="/petugas/pengaduan/detail/<?= $p['id_pengaduan']; ?>" class="btn btn-sm btn-success mb-2" title="Detail"><i class="fas fa-check"></i></a>
+
+                                            <!-- jika status pengaduan = 0 || proses tampilkan di bwh ini -->
+                                            <?php if ($p['status'] == '0' || $p['status'] == 'proses') : ?>
+                                                <a href="/petugas/form-tanggapan/<?= $p['id_pengaduan']; ?>" class="btn btn-sm btn-primary mb-2 <?= $p['status'] == '0' ? 'disabled' : ''; ?>" title="Tambah Tanggapan"><i class="fas fa-plus"></i></a>
+
+                                                <!-- <?= $p['status'] == '0' ? 'disabled' : ''; ?>
+                                            artinya jika status nya 0 maka tampilkan disable. disable = tidak diziinkan utk diklik -->
+                                            <?php endif ?>
+                                            <!-- <a href="petugas/pengaduan/hapus/<?= $p['id_pengaduan']; ?>" class="btn btn-sm btn-danger mb-2 mr-2" title="Hapus"><i class="fa fa-trash-alt" aria-hidden="true"></i></a> -->
+                                        </td>
+
+                                    </tr>
+
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
             </div>
-            <table class="table table-stripped table-hover table-bordered table-light">
-                <thead>
-                    <tr align="center">
-                        <th scope="col">#</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">NIK</th>
-                        <th scope="col">Tanggal Pengaduan</th>
-                        <th scope="col">Isi Laporan</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1;
-                    foreach ($pengaduan as $p) : ?>
-                        <tr align="center">
-                            <th scope="row"><?= $no++; ?></th>
-                            <td><?= $p['nama']; ?></td>
-                            <td><?= $p['nik']; ?></td>
-                            <td><?= $p['tgl_pengaduan']; ?></td>
-                            <td><?= $p['isi_laporan']; ?></td>
-                            <td><?= $p['status']; ?></td>
-                            <td>
-                                <a href="/petugas/pengaduan/detail/<?= $p['id_pengaduan']; ?>" class="btn btn-success mb-2" title="Detail"><i class="fas fa-check"></i></a>
-                                <a href="/petugas/form-tanggapan" class="btn btn-primary mb-2" title="Tambah Tanggapan"><i class="fas fa-plus"></i></a>
-                                <a href="petugas/pengaduan/hapus/<?= $p['id_pengaduan']; ?>" class="btn btn-danger mb-2 mr-2" title="Hapus"><i class="fa fa-trash-alt" aria-hidden="true"></i></a>
-                            </td>
-
-                        </tr>
-
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-
         </div>
     </div>
 </div>

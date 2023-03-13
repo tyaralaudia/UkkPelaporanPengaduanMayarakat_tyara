@@ -38,8 +38,7 @@
 </style>
 
 <body>
-    <!--jdi klo d vriabel  $data mka tmolkan itu , kalo sinya ga kosong tmpilkn itu klo variabelny isinya kosong i kt itu gbkal ditmpilin. 
-tmpilin kat tnggal cth:28...  -->
+   
     <h1>Laporan Pengaduan</h1>
     <?php if (isset($date)) : ?>
         <h1>Tanggal <?= $date; ?></h1>

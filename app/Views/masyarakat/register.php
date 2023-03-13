@@ -28,7 +28,7 @@
             <div class="card-body p-0">
                 <!-- Nested Row within Card Body -->
                 <div class="row">
-                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-5 d-none d-lg-block bg-register"></div>
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
@@ -42,6 +42,18 @@
                                         <?= session()->getFlashdata('salahPassword1'); ?>
                                     </div>
                                 <?php } ?>
+
+                                <?php if (session()->getFlashdata('gagalNik')) { ?>
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            <span class="sr-only">Close</span>
+                                        </button>
+                                        <?= session()->getFlashdata('gagalNik'); ?>
+                                    </div>
+                                <?php } ?>
+
+
                             </div>
                             <form class="user" action="/masyarakat/registrasi" method="POST">
                                 <div class="form-group">
@@ -97,9 +109,9 @@
                                 <button type="submit" class="btn btn-primary col-12 rounded-pill">Daftar</button>
                             </form>
                             <hr>
-                            <div class="text-center">
+                            <!-- <div class="text-center">
                                 <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div>
+                            </div> -->
                             <div class="text-center">
                                 <a class="small" href="/">Sudah punya akun?</a>
                             </div>

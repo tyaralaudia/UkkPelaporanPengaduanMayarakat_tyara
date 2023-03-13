@@ -41,6 +41,8 @@ class MasyarakatController extends BaseController
             $Usermasyarakat = $this->masyarakatmodel->where($syarat)->find();
             if (count($Usermasyarakat) == 1) {
                 $session_data = [
+                    // 'password' => '',
+                    'password' => $Usermasyarakat[0]['password'],
                     'username' => $Usermasyarakat[0]['username'],
                     'nik' => $Usermasyarakat[0]['nik'],
                     'nama' => $Usermasyarakat[0]['nama'],
@@ -48,11 +50,12 @@ class MasyarakatController extends BaseController
                     'sudahkahLogin' => TRUE
                 ];
                 session()->set($session_data);
+                session()->setFlashdata('success', 'Login Sukses!');
                 return redirect()->to('/masyarakat/dashboard');
-            } else {
-                session()->setFlashdata('pesan', 'Login gagal! Username atau Password salah');
-                return redirect()->to('/masyarakat');
             }
+            session()->setFlashdata('pesan', 'Login gagal! Username atau Password salah');
+
+            return redirect()->to('/MasyarakatController');
         }
     }
 
@@ -78,8 +81,8 @@ class MasyarakatController extends BaseController
             'nama' => [
                 'rules' => 'required|max_length[200]',
                 'errors' => [
-                    'required' => 'Nama petugas harus diisi.',
-                    'max_length' => 'Nama petugas terlalu panjang'
+                    'required' => 'Nama masyarakat harus diisi.',
+                    'max_length' => 'Nama masyarakat terlalu panjang'
                 ]
             ],
             'username' => [
@@ -143,17 +146,32 @@ class MasyarakatController extends BaseController
             $cekNik = $this->masyarakatmodel->where($data['nik'])->find();
 
             if (count($cekNik) == 1) {
-                session()->setFlashdata('gagalNik', 'NIK Anda Sudah Terdaftar');
-                return view('masyarakat/register');
+                $session_data = [
+
+                    'nama' => $cekNik[0]['nama'],
+                    'username' => $cekNik[0]['username'],
+                    'password' => $cekNik[0]['nik'],
+                    'password1' => $cekNik[0]['nama'],
+                    'nik' => $cekNik[0]['nik'],
+                    'telp' => $cekNik[0]['telp'],
+
+                    // 'sudahkahLogin' => TRUE
+                ];
+                session()->set($session_data);
+                session()->setFlashdata('gagalNik', 'Nik sudah terdaftar!');
+                return redirect()->back();
             } else {
                 $this->masyarakatmodel->insert($data);
-                return redirect()->to('/masyarakat/dashboard');
+                session()->set($data);
+                session()->setFlashdata('pesan', 'Registrasi berhasil!');
+                return redirect()->to('/masyarakat/login');
             }
         }
     }
 
     public function view_PengaduanAnda()
     {
+        helper('text');
         $data = [
             'title' => 'Pengaduan Anda',
             'pgdn' => $this->pengaduanmodel->getPengaduan()
@@ -170,9 +188,9 @@ class MasyarakatController extends BaseController
             'pgdn' => $this->pengaduanmodel->getPengaduan(),
             'validation' => \Config\Services::validation()
         ];
-        session()->set($data);
         return view('masyarakat/form_pengaduan', $data);
     }
+
 
     public function save_pengaduan()
     {
@@ -184,46 +202,34 @@ class MasyarakatController extends BaseController
                     'required' => 'Isi Laporan harus diisi.',
                 ]
             ],
-            'status' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Status harus diisi.',
-                ]
-            ],
-            'tgl_pengaduan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Tanggal Pengaduan harus diisi.',
-                ]
-            ],
-            'foto' => [
-                'rules' => 'ext_in[foto,png,jpg,jpeg]|max_size[foto,2048]|is_image[foto]',
-                'errors' => [
-                    'ext_in' => 'Foto yang dipilih harus memiliki ekstensi .jpg, .jpeg, atau .png.',
-                    'max_size' => 'Ukuran Foto terlalu besar (max. 1Mb)',
-                    'is_image' => 'File yang Anda pilih bukan gambar.'
-                ]
-            ]
         ])) {
-            $validasi = \Config\Services::validation();
-            // return redirect()->to('/masyarakat/tambah_pengaduan')->withInput()->with('validation', $validasi);
-            return redirect()->to('/masyarakat/tambah-pengaduan')->withInput();
+            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
+            return redirect()->to('/masyarakat/tambah-pengaduan')->withInput('validation', $this->validasi);
+            // return redirect()->to('/masyarakat/tambah-pengaduan')->withInput();
         }
-        // ambil gambar
-        $fileFoto = $this->request->getFile('foto');
-        // pindahkan file ke folder img
-        $fileFoto->move('img');
-        // ambil nama file
-        $namaFoto = $fileFoto->getName();
+        if (!$this->request->getFile('foto')->isValid()) {
+            $input = [
+                'nik' => $this->request->getPost('nik'),
+                'isi_laporan' => $this->request->getPost('isi_laporan'),
+                // 'tgl_pengaduan' => $this->request->getPost('tgl_pengaduan'),
+                'status' => '0'
+            ];
+        } else {
+            //  ambil gambar
+            $fileFoto = $this->request->getFile('foto');
+            //  ambil nama file
+            $namaFoto = $fileFoto->getRandomName();
+            // pindahkan file ke folder public/gambar
+            $fileFoto->move(WRITEPATH . '../public/img/', $namaFoto);
 
-        $input = [
-            'nik' => $this->request->getPost('nik'),
-            'isi_laporan' => $this->request->getPost('isi_laporan'),
-            'tgl_pengaduan' => $this->request->getPost('tgl_pengaduan'),
-            'foto' => $namaFoto,
-            'status' => $this->request->getPost('status')
-        ];
-        session()->set($input);
+            $input = [
+                'nik' => $this->request->getPost('nik'),
+                'isi_laporan' => $this->request->getPost('isi_laporan'),
+                // 'tgl_pengaduan' => $this->request->getPost('tgl_pengaduan'),
+                'foto' => $namaFoto,
+                'status' => '0'
+            ];
+        }
 
         $this->pengaduanmodel->insert($input);
         session()->setFlashdata('pesan', 'Laporan Pengaduan berhasil dikirim.');
@@ -232,24 +238,70 @@ class MasyarakatController extends BaseController
 
     public function detail_pengaduan($id_pengaduan)
     {
-        if (!session()->get('sudahkahLogin')) {
-            return redirect()->to('/');
-            exit();
-        }
         $data = [
             'title' => 'Detail Pengaduan',
-            'p' => $this->pengaduanmodel->where('id_pengaduan', $id_pengaduan)->findAll()
+            'p' => $this->pengaduanmodel->where('id_pengaduan', $id_pengaduan)->get()->getRowArray()
         ];
 
         return view('masyarakat/detail_pengaduan', $data);
     }
 
-    public function edit_pengaduan()
+    public function edit_pengaduan($id_pengaduan)
     {
+        $data = [
+            'title' => 'Edit Pengaduan',
+            'p' => $this->pengaduanmodel->where('id_pengaduan', $id_pengaduan)->get()->getRowArray(),
+            'validation' => $this->validasi,
+        ];
+
+        return view('masyarakat/edit-pengaduan', $data);
     }
 
-    public function update_pengaduan($id_pengaduan)
+    public function update_pengaduan()
     {
+        // validasi input
+        if (!$this->validate([
+            'isi_laporan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Isi Laporan harus diisi.',
+                ]
+            ],
+            'tgl_pengaduan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Tanggal Pengaduan harus diisi.',
+                ]
+            ],
+        ])) {
+            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
+            return redirect()->back()->withInput('validation', $this->validasi);
+            // return redirect()->to('/masyarakat/tambah-pengaduan')->withInput();
+        }
+        $id_pengaduan = $this->request->getPost('id_pengaduan');
+        $isi_laporan = $this->request->getPost('isi_laporan');
+        $nama_foto_lama = $this->request->getPost('nama_foto');
+        $file = $this->request->getFile('foto');
+
+        if ($file->isValid() && !$file->hasMoved()) {
+            if ($nama_foto_lama != '' && file_exists('img/' . $nama_foto_lama)) {
+                unlink('img/' . $nama_foto_lama);
+            }
+            $nama_foto = $file->getRandomName();
+            $file->move(WRITEPATH . '../public/img', $nama_foto);
+        } else {
+            $nama_foto = $nama_foto_lama;
+        }
+
+        if ($id_pengaduan) {
+            $input = [
+                'isi_laporan' => $isi_laporan,
+                'foto' => $nama_foto,
+            ];
+            $this->pengaduanmodel->where('id_pengaduan', $id_pengaduan)->set($input)->update();
+            session()->setFlashdata('pesan', 'Laporan Pengaduan berhasil diupdate.');
+            return redirect()->to('/masyarakat/pengaduan');
+        }
     }
 
     public function delete_pengaduan($id_pengaduan)
@@ -260,24 +312,81 @@ class MasyarakatController extends BaseController
         }
 
         $this->pengaduanmodel->where('id_pengaduan', $id_pengaduan)->delete();
-        session()->setFlashdata('hapus', 'Laporan Pengaduan berhasil dihapus');
+        session()->setFlashdata('pesan', 'Laporan Pengaduan berhasil dihapus');
         return redirect()->to('/masyarakat/pengaduan');
     }
 
     public function view_tanggapanAnda()
     {
+        $nik = session()->get('nik');
         $data = [
-            'title' => 'Tanggapan'
+            'title' => 'Pesan Tanggapan',
+            'tgpn' => $this->tanggapanmodel
+                ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
+                ->join('petugas', 'petugas.id_petugas = tanggapan.id_petugas')
+                ->where('pengaduan.nik', $nik)
+                ->get()->getResultArray()
         ];
+        // \dd(\session()->get()); 
 
         return view('masyarakat/tanggapan_anda', $data);
     }
 
     public function profil_akun()
     {
+        $nik = session()->get('nik');
         $data = [
+            'masyarakat' => $this->masyarakatmodel->where(['nik' => $nik])->get()->getRowArray(),
             'title' => 'Profil Akun'
         ];
         return view('masyarakat/profil', $data);
+    }
+
+
+    public function proses_edit_pass()
+    {
+
+        $nik = session()->get('nik');
+        // dd($nik);
+        $pass_old = md5($this->request->getPost('pass_old'));
+        $pass_old2 = $this->request->getPost('pass_old2');
+        $pass_new = $this->request->getPost('pass_new');
+        $pass_new2 = $this->request->getPost('pass_new2');
+        $username = $this->request->getPost('username');
+
+        $input_update = [
+            'password' => md5($pass_new2),
+            'username' => $username
+        ];
+        // dd($input_update);
+
+        if ($pass_old == $pass_old2) {
+            if ($pass_new == $pass_new2) {
+                $kondisi_nik = ['nik' => $nik];
+                $this->masyarakatmodel->where($kondisi_nik)->set($input_update)->update();
+
+                //jika berhasil tampilkan pesan ini
+                session()->setFlashdata('success', 'Akun berhasil diupdate');
+
+                //setelah berhasil update alihkan halaman ke ...
+                return redirect()->to('/masyarakat/dashboard'); //yg ttik sesuaiin sm routes
+            } else {
+                //jika password baru yang diinputkan tdak sama, maka
+
+                //1. tamplkan pesan gagal
+                session()->setFlashdata('warning', 'Password baru yang diinputkan tidak sama');
+
+                //2. tetap alihkan ke halaman  trsebut karna password gagal terupdate
+                return redirect()->to(base_url('/masyarakat/profil'));
+            }
+        } else {
+            //jika password lama yang diinputkan tidak sama, maka
+
+            // 1. tamplan pesan gagal
+            session()->setFlashdata('warning', 'Password lama yang diinputkan tidak sama');
+
+            //2. tetap alihkan ke halaman tersebut karena password gagal terupdate
+            return redirect()->to(base_url('/masyarakat/profil'));
+        }
     }
 }
