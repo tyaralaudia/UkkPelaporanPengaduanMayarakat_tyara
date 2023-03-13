@@ -36,8 +36,12 @@
                         <div class="col-lg-6 d-none d-lg-block bg-login-image"></div> -->
                         <div class="col-lg-16">
                             <div class="p-5">
+                                <?php if (session()->getFlashdata('list_errors')) : ?>
+                                    <?= session()->getFlashdata('list_errors') ?>
+                                <?php endif ?>
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Silahkan Registrasi!</h1>
+
                                     <?php if (session()->getFlashdata('salahPassword1')) { ?>
                                         <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -47,18 +51,6 @@
                                             <?= session()->getFlashdata('salahPassword1'); ?>
                                         </div>
                                     <?php } ?>
-
-                                    <?php if (session()->getFlashdata('gagalNik')) { ?>
-                                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                                <span class="sr-only">Close</span>
-                                            </button>
-                                            <?= session()->getFlashdata('gagalNik'); ?>
-                                        </div>
-                                    <?php } ?>
-
-
                                 </div>
                                 <form class="user" action="/masyarakat/registrasi" method="POST">
                                     <div class="form-group">
@@ -114,9 +106,9 @@
                                     <button type="submit" class="btn btn-primary col-12 rounded-pill">Daftar</button>
                                 </form>
                                 <hr>
-                                <!-- <div class="text-center">
-                                <a class="small" href="forgot-password.html">Forgot Password?</a>
-                            </div> -->
+                                <div class="text-center">
+                                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                </div>
                                 <div class="text-center">
                                     <a class="small" href="/">Sudah punya akun?</a>
                                 </div>

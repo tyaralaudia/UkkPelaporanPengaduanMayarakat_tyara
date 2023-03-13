@@ -64,7 +64,6 @@ class MasyarakatController extends BaseController
         session()->destroy();
         return redirect()->to('/');
     }
-
     public function register()
     {
         $data = [
@@ -74,6 +73,8 @@ class MasyarakatController extends BaseController
         return view('masyarakat/register', $data);
     }
 
+
+
     public function save_register()
     {
         // validasi input
@@ -81,8 +82,8 @@ class MasyarakatController extends BaseController
             'nama' => [
                 'rules' => 'required|max_length[200]',
                 'errors' => [
-                    'required' => 'Nama masyarakat harus diisi.',
-                    'max_length' => 'Nama masyarakat terlalu panjang'
+                    'required' => 'Nama petugas harus diisi.',
+                    'max_length' => 'Nama petugas terlalu panjang'
                 ]
             ],
             'username' => [
@@ -123,6 +124,7 @@ class MasyarakatController extends BaseController
             ]
         ])) {
             $validasi = \Config\Services::validation();
+            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
             return redirect()->to('/masyarakat/register')->withInput()->with('validation', $validasi);
         } else {
             $input = [
@@ -143,29 +145,16 @@ class MasyarakatController extends BaseController
                 'telp' => $telp
             ];
 
+            // $cekNik = $this->masyarakatmodel->where($data['nik'])->find();
             $cekNik = $this->masyarakatmodel->where($data['nik'])->find();
 
-            if (count($cekNik) == 1) {
-                $session_data = [
-
-                    'nama' => $cekNik[0]['nama'],
-                    'username' => $cekNik[0]['username'],
-                    'password' => $cekNik[0]['nik'],
-                    'password1' => $cekNik[0]['nama'],
-                    'nik' => $cekNik[0]['nik'],
-                    'telp' => $cekNik[0]['telp'],
-
-                    // 'sudahkahLogin' => TRUE
-                ];
-                session()->set($session_data);
-                session()->setFlashdata('gagalNik', 'Nik sudah terdaftar!');
-                return redirect()->back();
-            } else {
-                $this->masyarakatmodel->insert($data);
-                session()->set($data);
-                session()->setFlashdata('pesan', 'Registrasi berhasil!');
-                return redirect()->to('/masyarakat/login');
-            }
+            // if (count($cekNik) == 1) {
+            //     session()->setFlashdata('gagalNik', 'NIK Anda Sudah Terdaftar');
+            //     return view('masyarakat/register');
+            // } else {
+            $this->masyarakatmodel->insert($data);
+            return redirect()->to('/MasyarakatController');
+            // }
         }
     }
 
