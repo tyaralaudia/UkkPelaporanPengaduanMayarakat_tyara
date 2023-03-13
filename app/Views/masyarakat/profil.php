@@ -1,9 +1,12 @@
 <?= $this->extend('layout/template'); ?>
-<!-- file ini nyambung ke layout template
-penempatan html ini di rendeersection(penanda) -->
+
 <?= $this->section('content'); ?>
-<div class="container">
-    <h3 class="top">Pengaturan Akun</h3>
+<div class="container-fluid">
+
+
+    <h3 class="m-0 font-weight-bold text-primary">Pengaturan Akun (<?= session()->get('nama'); ?>)</h3>
+
+
     <div class="card">
         <div class="card-header">
         </div>
@@ -23,7 +26,7 @@ penempatan html ini di rendeersection(penanda) -->
                             <div class="col-md-6 pr-1">
                                 <div class="form-group">
                                     <label>Username</label>
-                                    <input type="text" name="username" class="form-control" placeholder="Username" value="<?= $user['username'] ?>" required>
+                                    <input type="text" name="username" class="form-control" placeholder="Username" value="<?= $masyarakat['username'] ?>" required>
                                 </div>
                             </div>
                         </div>
@@ -32,7 +35,7 @@ penempatan html ini di rendeersection(penanda) -->
                                 <div class="form-group">
                                     <label>Password Lama</label>
                                     <input type="password" name="pass_old" class="form-control" placeholder="Password Lama" required>
-                                    <input type="hidden" name="pass_old2" value="<?php echo $user['password'] ?>">
+                                    <input type="hidden" name="pass_old2" value="<?php echo $masyarakat['password'] ?>">
                                 </div>
                             </div>
                         </div>
@@ -57,10 +60,7 @@ penempatan html ini di rendeersection(penanda) -->
                         <button type="submit" name="perbarui" class="btn btn-success">Simpan Perubahan</button>
 
                     </form>
-
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<?= $this->endSection('content'); ?>
+        <?= $this->endSection(); ?>
