@@ -8,13 +8,13 @@ class Petugas extends Model
 {
     protected $DBGroup              = 'default';
     protected $table                = 'petugas';
-    protected $primaryKey           = 'username';
+    protected $primaryKey           = 'id_petugas';
     protected $useAutoIncrement     = true;
     protected $insertID             = 0;
     protected $returnType           = 'array';
     protected $useSoftDeletes       = false;
     protected $protectFields        = true;
-    protected $allowedFields        = ['username', 'password', 'nama_petugas', 'telp', 'level'];
+    protected $allowedFields        = ['id_petugas', 'username', 'password', 'nama_petugas', 'telp', 'level'];
 
     // Dates
     protected $useTimestamps        = false;
