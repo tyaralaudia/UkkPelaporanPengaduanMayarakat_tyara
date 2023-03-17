@@ -77,6 +77,10 @@ class MasyarakatController extends BaseController
 
     public function save_register()
     {
+        // is_numeric itu "apakah angka"jdi mksdnya kalo si username pke is_numeric, brrti hrus isi angka
+        // aja, gboleh pake huruf
+        // is_unique='apakah sama' maksudnya apakah ada data yang sama ketka kita input sesuaatu
+
         // validasi input
         if (!$this->validate([
             'nama' => [
@@ -87,10 +91,12 @@ class MasyarakatController extends BaseController
                 ]
             ],
             'username' => [
-                'rules' => 'required|max_length[200]',
+                'rules' => 'required|is_unique[masyarakat.username]|max_length[200]',
                 'errors' => [
                     'required' => 'Username harus diisi.',
+                    'is_unique' => 'Username yang Anda masukkan sudah terdaftar',
                     'max_length' => 'Username terlalu panjang'
+                    // 'is_numeric' => 'Username terlalu panjang'
                 ]
             ],
             'password' => [
@@ -116,9 +122,10 @@ class MasyarakatController extends BaseController
                 ]
             ],
             'telp' => [
-                'rules' => 'required|is_numeric',
+                'rules' => 'required|is_unique[masyarakat.telp]|is_numeric',
                 'errors' => [
                     'required' => 'Nomor Telepon harus diisi.',
+                    'is_unique' => 'Nomor yang Anda masukkan sudah terdaftar',
                     'is_numeric' => 'Nomor Telepon harus berisi angka'
                 ]
             ]
@@ -183,6 +190,7 @@ class MasyarakatController extends BaseController
 
     public function save_pengaduan()
     {
+
         // validasi input
         if (!$this->validate([
             'isi_laporan' => [
@@ -191,6 +199,15 @@ class MasyarakatController extends BaseController
                     'required' => 'Isi Laporan harus diisi.',
                 ]
             ],
+
+            'foto' => [
+                'rules' => 'is_image[foto]',
+                'errors' => [
+                    'is_image' => 'file yang dimasukkan bukan gambar',
+                ]
+            ],
+
+
         ])) {
             session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
             return redirect()->to('/masyarakat/tambah-pengaduan')->withInput('validation', $this->validasi);
@@ -292,6 +309,94 @@ class MasyarakatController extends BaseController
             return redirect()->to('/masyarakat/pengaduan');
         }
     }
+
+    public function editt_tanggapan($id_pengaduan)
+    {
+        // $where = ['id_tanggapan' => $id_pgdn];
+        $data = [
+            'title' => 'Edit Tanggapan',
+            // 'tgpn' => $this->tanggapanmodel
+            //     ->where($where)
+            //     ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
+            //     ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
+            //     ->get()->getRowArray(),
+            'tgpn' => $this->tanggapanmodel
+                // ->where($where)
+                ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
+                ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
+                ->join('petugas', 'petugas.id_petugas = tanggapan.id_petugas')
+                ->get()->getRowArray(),
+            'validation' => \Config\Services::validation()
+        ];
+        return view('masyarakat/editt-tanggapan', $data);
+    }
+
+    public function update_tanggapann()
+    {
+        // validasi input
+        if (!$this->validate([
+            'tanggapan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Isi Tanggapan harus diisi.',
+                ]
+            ],
+        ])) {
+            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
+            return redirect()->back()->withInput('validation', $this->validasi);
+        }
+
+        $id_tanggapan = $this->request->getPost('id_tanggapan');
+        $username = $this->request->getPost('username');
+        $tanggapan = $this->request->getPost('tanggapan');
+        $input = [
+            'id_tanggapan' => $id_tanggapan,
+            'username' => $username,
+            'tanggapan' => $tanggapan,
+
+        ];
+
+        // $status = ['status' => 'selesai']; // update status pengaduan menjadi selesai
+        // $this->pengaduanmodel->update(['id_tanggapan' => $id_tanggapan], $status);
+        $this->tanggapanmodel->update(["id_tanggapan" => $id_tanggapan], $input);
+        session()->setFlashdata('success_edit', 'Tanggapan berhasil diupdate.');
+        return redirect()->to('/masyarakat/tanggapan');
+    }
+    public function save_tanggapann()
+    {
+        // validasi input
+        if (!$this->validate([
+            'tanggapan' => [
+                'rules' => 'required',
+                'errors' => [
+                    'required' => 'Isi Tanggapan harus diisi.',
+                ]
+            ],
+        ])) {
+            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
+            return redirect()->back()->withInput('validation', $this->validasi);
+        }
+
+        $id_pengaduan = $this->request->getPost('id_pengaduan');
+        $id_petugas = $this->request->getPost('id_petugas');
+        $username = $this->request->getPost('username');
+        // $tgl_tanggapan = $this->request->getPost('tgl_tanggapan');
+        $tanggapan = $this->request->getPost('tanggapan');
+        $input = [
+            'id_pengaduan' => $id_pengaduan,
+            'username' => $username,
+            // 'tgl_tanggapan' => $tgl_tanggapan,
+            'tanggapan' => $tanggapan,
+            'id_petugas' => $id_petugas,
+        ];
+
+        $status = ['status' => 'selesai']; // update status pengaduan menjadi selesai
+        $this->pengaduanmodel->update(['id_pengaduan' => $id_pengaduan], $status);
+        $this->tanggapanmodel->insert($input);
+        session()->setFlashdata('success_tambah', 'Tanggapan berhasil dikirim.');
+        return redirect()->to('/masyarakat/tanggapan');
+    }
+
 
     public function delete_pengaduan($id_pengaduan)
     {
