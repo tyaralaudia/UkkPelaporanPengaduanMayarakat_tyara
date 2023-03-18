@@ -4,6 +4,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col">
+
+
+
             <div class="card shadow mb-4">
                 <div class="card-header mb-2">
                     <h6 class="m-0 font-weight-bold text-primary">Data Tanggapan</h6>
@@ -13,14 +16,14 @@
                         <table class="table table-hovered" id="dataTable" width="100%" cellspacing="0">
                             <thead>
                                 <tr align="center">
-                                    <th scope="col">#</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">Pesan Tanggapan</th>
                                     <th scope="col">Nama Petugas</th>
                                     <th scope="col">Tanggal Tanggapan</th>
                                     <th scope="col">Isi Laporan</th>
                                     <th scope="col">Foto</th>
                                     <th scope="col">Status</th>
-                                    <!-- <th scope="col">Aksi</th> -->
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -42,6 +45,8 @@
                                                 <span class="badge badge-success">Selesai</span>
                                             <?php } ?>
                                         </td>
+
+
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

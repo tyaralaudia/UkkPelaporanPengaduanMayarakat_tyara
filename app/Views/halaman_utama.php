@@ -302,7 +302,7 @@
 
             <div class="container">
                 <div class="copyright">
-                    &copy; Copyright <strong><span>Tyara</span></strong>
+                    &copy; Copyright <strong><span>Tyara Laudia</span></strong>
                 </div>
                 <div class="credits">
                     <!-- All the links in the footer should remain intact. -->

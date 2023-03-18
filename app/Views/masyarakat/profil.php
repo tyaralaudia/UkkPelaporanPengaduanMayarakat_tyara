@@ -57,7 +57,7 @@
                         </div>
                         <!-- <button type="submit" name="perbarui" class="btn btn-primary">Kembali</button> -->
 
-                        <button type="submit" name="perbarui" class="btn btn-success">Simpan Perubahan</button>
+                        <button type="submit" name="perbarui" class="btn btn-primary">Simpan Perubahan</button>
 
                     </form>
                 </div>

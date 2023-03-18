@@ -137,6 +137,25 @@
                         <span>Tanggapan</span></a>
                 </li>
 
+                <div class="sidebar-heading">
+                    Laporan
+                </div>
+
+                <!-- Nav Item - Charts -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#laporan" aria-expanded="true" aria-controls="laporan">
+                        <i class="fa fa-print" aria-hidden="true"></i>
+                        <span> Laporan</span>
+                    </a>
+                    <div class="collapse <?= url_is('/laporan*') ? 'show' : ''; ?>" id="laporan" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Menu Laporan: </h6>
+                            <a href="/masyarakat/laporan/pengaduan" class="collapse-item <?= url_is('/masyarakat/laporan/pengaduan') ? 'active' : ''; ?>">Laporan Pengaduan</a>
+                            <a href="/masyarakat/laporan/tanggapan" class="collapse-item <?= url_is('/masyarakat/laporan/tanggapan') ? 'active' : ''; ?>">Laporan Tanggapan</a>
+                        </div>
+                    </div>
+                </li>
+
             <?php } ?>
 
             <?php if (session()->get('level') == 'admin') { ?>

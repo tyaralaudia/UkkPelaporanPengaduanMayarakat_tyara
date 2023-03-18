@@ -34,7 +34,7 @@
                         <?= $validation->getError('telp'); ?>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-success">Kirim</button>
+                <button type="submit" class="btn btn-primary">Kirim</button>
             </form>
 
         </div>

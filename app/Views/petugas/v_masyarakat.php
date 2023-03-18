@@ -22,7 +22,7 @@
                         <table class="table table-sm table-striped table-hover" id="dataTable">
                             <thead>
                                 <tr align="center">
-                                    <th scope="col">#</th>
+                                    <th scope="col">No</th>
                                     <th scope="col">NIK</th>
                                     <th scope="col">Nama Masyarakat</th>
                                     <th scope="col">Username</th>

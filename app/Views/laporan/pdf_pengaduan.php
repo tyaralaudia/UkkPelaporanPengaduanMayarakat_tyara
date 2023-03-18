@@ -38,8 +38,12 @@
 </style>
 
 <body>
-   
+
+
     <h1>Laporan Pengaduan</h1>
+    <!-- isset itu artinya 'kalau ada' atau bisa aja 'kalau isinya tidak kosong, jdi mksdnya:'
+    1.jadi kalo ada variabel $date maka tampilkan kata itu
+    kalo isinya tidak kosong tampilkan kata itu -->
     <?php if (isset($date)) : ?>
         <h1>Tanggal <?= $date; ?></h1>
     <?php endif ?>

@@ -31,7 +31,7 @@
                     <table class="table table-hovered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr align="center">
-                                <th scope="col">#</th>
+                                <th scope="col">No</th>
                                 <!-- <th scope="col">Nama</th>
                             <th scope="col">NIK</th> -->
                                 <th scope="col">Tanggal Pengaduan</th>

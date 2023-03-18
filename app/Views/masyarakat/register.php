@@ -67,11 +67,7 @@
                                                     <?= $validation->getError('nik'); ?>
                                                 </div>
 
-                                                <?php if (session()->getFlashdata('gagalNik')) { ?>
-                                                    <div class="invalid-feedback">
-                                                        <?= session()->getFlashdata('gagalNik'); ?>
-                                                    </div>
-                                                <?php } ?>
+
                                             </div>
 
                                             <div class="col-sm-6">
@@ -106,11 +102,11 @@
                                     <button type="submit" class="btn btn-primary col-12 rounded-pill">Daftar</button>
                                 </form>
                                 <hr>
-                                <div class="text-center">
+                                <!-- <div class="text-center">
                                     <a class="small" href="forgot-password.html">Forgot Password?</a>
-                                </div>
+                                </div> -->
                                 <div class="text-center">
-                                    <a class="small" href="/">Sudah punya akun?</a>
+                                    <a class="small" href="/MasyarakatController">Sudah punya akun?</a>
                                 </div>
                             </div>
                         </div>

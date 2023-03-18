@@ -32,7 +32,7 @@
                     <table class="table table-striped table-hover" id="dataTable">
                         <thead>
                             <tr align="center">
-                                <th scope="col">#</th>
+                                <th scope="col">No</th>
                                 <th scope="col">Nama Petugas</th>
                                 <th scope="col">Username</th>
                                 <!-- <th scope="col">Password</th> -->
