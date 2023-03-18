@@ -3,17 +3,36 @@
 ## Tentang Pengaduan Masyarakat
 
 Pengaduan Masyarakat adalah aplikasi yang dibuat untuk mempermudah masyarakat menyampaikan keluhan, 
-pelaporan pelanggaran hukum serta mempermudah perangkat desa memonitoring pelanggaran pelanggaran yang terjadi di sekitar
+pelaporan pelanggaran hukum serta mempermudah perangkat desa memonitoring pelanggaran pelanggaran yang terjadi di sekitar.
+Dengan menggunakan aplikasi ini, tentunya akan lebih mengurangi biaya dalam pendataan pengaduan dari masyarakat, dan mengurangi
+penggunaan kertas yang dimana pohon adalah GO GREEN bagi kehidupan manusia.
 
+Aplikasi ini memiliki 3 hak akses level login, yang diantaranya:
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+Level Admin
+- Login
+- Logout
+- Registrasi
+- Verifikasi dan Validasi
+- Memberikan Tanggapan
+- Generate Laporan
 
-More information about the plans for version 4 can be found in [the announcement](http://forum.codeigniter.com/thread-62615.html) on the forums.
+Level Petugas
+- Login
+- Logout
+- Verifikasi dan Validasi
+- Memberikan Tanggapan
 
-The user guide corresponding to this version of the framework can be found
-[here](https://codeigniter4.github.io/userguide/).
+Level Masyarakat
+- Login
+- Logout
+- Registasi
+- Menulis Laporan Pengaduan
+
+Namun, untuk di level Masyarakat, ditambahkan lagi fitur laporan supaya bisa mencetak data yang telah diadukan beserta tanggapanya (jika sewaktu waktu laporan tersebut dibutuhkan).
+
+Untuk di level Admin juga menambahkan fitur Data Petugas, -> untuk me-Registrasi anggota petugas baru.
+
 
 ## Installation & updates
 
