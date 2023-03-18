@@ -52,7 +52,6 @@ $routes->get('/petugas/verifikasi-validasi', 'PetugasController::verifikasi_vali
 // masyarakat
 // $routes->get('/Akun', 'User::profile');
 $routes->post('/update_pass', 'MasyarakatController::proses_edit_pass', ['as' => 'updatePass']);
-
 $routes->get('/', 'MasyarakatController::index');
 $routes->post('/masyarakat/login', 'MasyarakatController::login_masyarakat');
 $routes->get('/masyarakat/register', 'MasyarakatController::register');
@@ -92,7 +91,7 @@ $routes->post('/masyarakat/save', 'MasyarakatController::save_pengaduan', ['filt
 $routes->get('/masyarakat/pengaduan/edit/(:num)', 'MasyarakatController::edit_pengaduan/$1', ['filter' => 'otentifikasi']);
 $routes->post('/masyarakat/pengaduan/update', 'MasyarakatController::update_pengaduan', ['filter' => 'otentifikasi']);
 $routes->get('/masyarakat/pengaduan/hapus/(:num)', 'MasyarakatController::delete_pengaduan/$1', ['filter' => 'otentifikasi']);
-
+$routes->get('/masyarakat/tanggapan/edit/(:num)', 'MasyarakatController::editt_tanggapan/$1', ['filter' => 'otentifikasi']);
 
 // crud tanggapan
 $routes->get('/petugas/form-tanggapan/(:num)', 'PetugasController::form_tanggapan/$1', ['filter' => 'otentifikasi']);
@@ -109,6 +108,8 @@ $routes->get('/laporan/pengaduan/excel', 'LaporanController::pengaduan', ['filte
 $routes->get('/laporan/tanggapan', 'LaporanController::tanggapan', ['filter' => 'otentifikasi']);
 $routes->get('/laporan/tanggapan/pdf', 'LaporanController::tanggapan', ['filter' => 'otentifikasi']);
 $routes->get('/laporan/tanggapan/excel', 'LaporanController::tanggapan', ['filter' => 'otentifikasi']);
+$routes->get('/masyarakat/laporan/pengaduan', 'MasyarakatController::laporan', ['filter' => 'otentifikasi']);
+$routes->get('/masyarakat/laporan/tanggapan', 'MasyarakatController::laporan_tanggapan', ['filter' => 'otentifikasi']);
 
 /*
  * --------------------------------------------------------------------
