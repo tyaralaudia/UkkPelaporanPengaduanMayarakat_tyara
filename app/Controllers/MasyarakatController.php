@@ -310,92 +310,7 @@ class MasyarakatController extends BaseController
         }
     }
 
-    public function editt_tanggapan($id_pengaduan)
-    {
-        // $where = ['id_tanggapan' => $id_pgdn];
-        $data = [
-            'title' => 'Edit Tanggapan',
-            // 'tgpn' => $this->tanggapanmodel
-            //     ->where($where)
-            //     ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
-            //     ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
-            //     ->get()->getRowArray(),
-            'tgpn' => $this->tanggapanmodel
-                // ->where($where)
-                ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
-                ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
-                ->join('petugas', 'petugas.id_petugas = tanggapan.id_petugas')
-                ->get()->getRowArray(),
-            'validation' => \Config\Services::validation()
-        ];
-        return view('masyarakat/editt-tanggapan', $data);
-    }
 
-    public function update_tanggapann()
-    {
-        // validasi input
-        if (!$this->validate([
-            'tanggapan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Isi Tanggapan harus diisi.',
-                ]
-            ],
-        ])) {
-            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
-            return redirect()->back()->withInput('validation', $this->validasi);
-        }
-
-        $id_tanggapan = $this->request->getPost('id_tanggapan');
-        $username = $this->request->getPost('username');
-        $tanggapan = $this->request->getPost('tanggapan');
-        $input = [
-            'id_tanggapan' => $id_tanggapan,
-            'username' => $username,
-            'tanggapan' => $tanggapan,
-
-        ];
-
-        // $status = ['status' => 'selesai']; // update status pengaduan menjadi selesai
-        // $this->pengaduanmodel->update(['id_tanggapan' => $id_tanggapan], $status);
-        $this->tanggapanmodel->update(["id_tanggapan" => $id_tanggapan], $input);
-        session()->setFlashdata('success_edit', 'Tanggapan berhasil diupdate.');
-        return redirect()->to('/masyarakat/tanggapan');
-    }
-    public function save_tanggapann()
-    {
-        // validasi input
-        if (!$this->validate([
-            'tanggapan' => [
-                'rules' => 'required',
-                'errors' => [
-                    'required' => 'Isi Tanggapan harus diisi.',
-                ]
-            ],
-        ])) {
-            session()->setFlashdata('list_errors', $this->validasi->listErrors('template_validasi'));
-            return redirect()->back()->withInput('validation', $this->validasi);
-        }
-
-        $id_pengaduan = $this->request->getPost('id_pengaduan');
-        $id_petugas = $this->request->getPost('id_petugas');
-        $username = $this->request->getPost('username');
-        // $tgl_tanggapan = $this->request->getPost('tgl_tanggapan');
-        $tanggapan = $this->request->getPost('tanggapan');
-        $input = [
-            'id_pengaduan' => $id_pengaduan,
-            'username' => $username,
-            // 'tgl_tanggapan' => $tgl_tanggapan,
-            'tanggapan' => $tanggapan,
-            'id_petugas' => $id_petugas,
-        ];
-
-        $status = ['status' => 'selesai']; // update status pengaduan menjadi selesai
-        $this->pengaduanmodel->update(['id_pengaduan' => $id_pengaduan], $status);
-        $this->tanggapanmodel->insert($input);
-        session()->setFlashdata('success_tambah', 'Tanggapan berhasil dikirim.');
-        return redirect()->to('/masyarakat/tanggapan');
-    }
 
 
     public function delete_pengaduan($id_pengaduan)
@@ -425,6 +340,92 @@ class MasyarakatController extends BaseController
 
         return view('masyarakat/tanggapan_anda', $data);
     }
+
+
+    public function laporan()
+    {
+        $date = $this->request->getVar('date');
+        // \d($date);
+
+        $pgdn = $this->pengaduanmodel
+            ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
+            ->where('masyarakat.nik', session()->get('nik'))
+            ->where('status', 'selesai')
+            ->findAll();
+
+
+
+        $data = [
+            'title' => "Laporan Pengaduan",
+            'pgdn' => $pgdn,
+            'date' => $date,
+            'url_query' =>  $this->request->uri->getQuery()
+        ];
+
+        // pdf
+        if ($this->request->uri->getSegment(3) == 'pdf') {
+            $html = view('laporan/pdf_pengaduan', ['pgdn' => $pgdn, 'date' => $date]);
+
+            $filename = "Laporan Pengaduan_{$date}";
+            $pdf = new Dompdf();
+
+            $pdf->loadHtml($html);
+            $pdf->setPaper('A4', 'landscape');
+            $pdf->render();
+            $pdf->stream($filename);
+
+            return redirect()->back();
+        }
+        return view('laporan/pengaduan', $data);
+    }
+
+
+
+    public function laporan_tanggapan()
+    {
+        $date = $this->request->getVar('date');
+        // \d($date);
+
+        $tgpn = $this->tanggapanmodel
+            ->join('petugas', 'petugas.id_petugas = tanggapan.id_petugas')
+            ->join('pengaduan', 'pengaduan.id_pengaduan = tanggapan.id_pengaduan')
+            ->join('masyarakat', 'masyarakat.nik = pengaduan.nik')
+            ->where('masyarakat.nik', session()->get('nik'))
+            // ->where('tgl_tanggapan', $date)
+            ->where('status', 'selesai')
+            ->findAll();
+
+
+        $data = [
+            'title' => "Laporan Tanggapan",
+            'tgpn' => $tgpn,
+            'date' => $date,
+            'url_query' =>  $this->request->uri->getQuery()
+        ];
+        // pdf
+        if ($this->request->uri->getSegment(3) == 'pdf') {
+            $html = view('laporan/pdf_tanggapan', ['tgpn' => $tgpn, 'date' => $date]);
+
+            $filename = "Laporan Tanggapan_{$date}";
+            $pdf = new Dompdf();
+
+            $pdf->loadHtml($html);
+            $pdf->setPaper('A4', 'landscape');
+            $pdf->render();
+            $pdf->stream($filename);
+
+
+            return redirect()->back();
+        }
+        return view('laporan/tanggapan', $data);
+    }
+
+
+
+
+
+
+
 
     public function profil_akun()
     {
