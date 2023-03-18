@@ -2,8 +2,9 @@
 
 ## Tentang Pengaduan Masyarakat
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](http://codeigniter.com).
+Pengaduan Masyarakat adalah aplikasi yang dibuat untuk mempermudah masyarakat menyampaikan keluhan, 
+pelaporan pelanggaran hukum serta mempermudah perangkat desa memonitoring pelanggaran pelanggaran yang terjadi di sekitar
+
 
 This repository holds a composer-installable app starter.
 It has been built from the
