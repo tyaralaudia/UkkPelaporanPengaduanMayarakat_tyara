@@ -31,7 +31,7 @@ Level Masyarakat
 - Registasi
 - Menulis Laporan Pengaduan
 
-Namun, untuk di level Masyarakat, ditambahkan lagi fitur laporan supaya masyarakat sendiri bisa melihat, mencetak data yang telah diadukan beserta tanggapanya (jika sewaktu waktu laporan tersebut dibutuhkan).
+Namun, untuk di level Masyarakat, ditambahkan lagi fitur laporan supaya masyarakat sendiri bisa (melihat,mencetak/mendownload) data yang telah diadukan beserta tanggapanya (jika sewaktu waktu laporan tersebut dibutuhkan).
 
 Untuk di level Admin juga menambahkan fitur Data Petugas, -> untuk me-Registrasi anggota petugas baru.
 
