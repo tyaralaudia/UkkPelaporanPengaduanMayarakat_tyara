@@ -34,6 +34,50 @@ Namun, untuk di level Masyarakat, ditambahkan lagi fitur laporan supaya masyarak
 
 Untuk di level Admin juga menambahkan fitur Data Petugas, -> untuk me-Registrasi anggota petugas baru.
 
+Beberapa fungsi di CodeIgniter 4 yang digunakan untuk membuat aplikasi ini:
+
+## Basic
+
+- Routing
+https://codeigniter.com/user_guide/incoming/routing.html
+- Controllers
+https://codeigniter.com/user_guide/incoming/controllers.html
+- Requests
+ https://codeigniter.com/user_guide/incoming/incomingrequest.html
+- Views
+https://codeigniter.com/user_guide/outgoing/views.html
+- Session
+https://codeigniter.com/user_guide/general/common_functions.html
+- Validation
+https://codeigniter.com/user_guide/libraries/validation.html?highlight=validation
+
+## Security
+
+- authentication
+https://codeigniter.com/user_guide/extending/authentication.html?highlight=authentication
+
+## Databases
+
+- Query Builder
+https://codeigniter.com/user_guide/database/query_builder.html?highlight=query%20builder
+- Pagination
+https://codeigniter.com/user_guide/libraries/pagination.html?highlight=pagination
+- Migrations
+https://codeigniter.com/user_guide/dbmgmt/migration.html?highlight=migrations
+- Seeder
+https://codeigniter.com/user_guide/dbmgmt/seeds.html?highlight=seeder
+
+## Framework Frontend
+
+- Bootstrap
+https://getbootstrap.com/
+
+## Package Pendukung
+
+- Sweet Alert 2
+https://sweetalert2.github.io
+- Dompdf
+https://dompdf.github.io
 
 ## Petunjuk Instalasi
 
@@ -41,6 +85,8 @@ Untuk di level Admin juga menambahkan fitur Data Petugas, -> untuk me-Registrasi
 - Ubah bagian app.baseURL ="Menjadi alamat URL aplikasi anda"
 - Ubah environment menjadi production jika akan di hosting
 - Ubah setting database di bagian Database
+
+## Gambar
 
 
 
