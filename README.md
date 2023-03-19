@@ -87,6 +87,11 @@ https://dompdf.github.io
 - Ubah setting database di bagian Database
 
 ## Gambar
+<p align="center">
+ <span>![admin](https://user-images.githubusercontent.com/109785896/226150393-4cfc0534-2f9d-4346-aa44-aaffd56ad451.jpeg)</span>
+ <span>![petugas](https://user-images.githubusercontent.com/109785896/226150403-db91ff30-8937-4f31-8b03-7c426a31f6d7.jpeg)</span>
+ <span>![masyarakat](https://user-images.githubusercontent.com/109785896/226150413-abbe04fa-f1cc-48bf-9adb-84d01fcf8dd4.jpeg)</span>
+</p>
 
 
 
