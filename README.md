@@ -104,6 +104,6 @@ https://dompdf.github.io
 ## Penutup
 
 Terimakasih...
-
-## "tidak ada yg sulit selagi kita masih mampu untuk berusaha"
+  
+note : "tidak ada yg sulit selagi kita masih mampu untuk berusaha"
 
